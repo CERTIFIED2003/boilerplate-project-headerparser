@@ -4,6 +4,7 @@
 // init project
 require('dotenv').config();
 var express = require('express');
+var axios = require("axios");
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
@@ -24,7 +25,20 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+// --------------CHALLENGE--------------
+app.get('/api/whoami', (req, res) => {
+  // Axios get method from "ipify.org" to get IP Address
+  // const ip = await axios.get("https://api.ipify.org");  // <-- Another method to get IP Address
+
+  // req.headers returns an object containing the predefined/custom header given in the current request
+  res.json({
+    "ipaddress": req.headers.host,
+    "language": req.headers['accept-language'],
+    "software": req.headers['user-agent']
+  });
+});
+
 // listen for requests :)
-var listener = app.listen(process.env.PORT || 3000, function () {
+var listener = app.listen(process.env.PORT || 3002, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
